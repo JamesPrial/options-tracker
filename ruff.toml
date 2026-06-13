@@ -1,0 +1,10 @@
+# Ruff config for options-tracker.
+# Lint: ./venv/bin/ruff check .   Format: ./venv/bin/ruff format .
+target-version = "py313"
+line-length = 100
+
+[lint]
+# pycodestyle errors, pyflakes, isort, pyupgrade, bugbear, blind-except.
+# BLE is enabled intentionally: the codebase uses `# noqa: BLE001` to mark the
+# deliberate broad excepts that keep one bad ticker from aborting a run.
+select = ["E", "F", "I", "UP", "B", "BLE"]

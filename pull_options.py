@@ -188,8 +188,7 @@ def main(argv: list[str] | None = None) -> int:
     tickers = normalize_tickers(raw_tickers)
 
     if not tickers:
-        print("error: no tickers provided (pass them as arguments or via --file).",
-              file=sys.stderr)
+        print("error: no tickers provided (pass them as arguments or via --file).", file=sys.stderr)
         return 2
 
     out_dir = Path(args.out_dir)

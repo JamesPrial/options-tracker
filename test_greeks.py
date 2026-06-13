@@ -15,9 +15,7 @@ import greeks
 
 def _chain(rows):
     """Build a minimal chain DataFrame from (strike, iv, type, T) tuples."""
-    return pd.DataFrame(
-        rows, columns=["strike", "impliedVolatility", "type", "timeToExpiry"]
-    )
+    return pd.DataFrame(rows, columns=["strike", "impliedVolatility", "type", "timeToExpiry"])
 
 
 def test_reference_call_and_put():

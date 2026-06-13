@@ -123,14 +123,8 @@ def _bsm_greeks(
 
         # Theta (per year)
         common_theta = -(spot * pdf_d1 * safe_sigma * disc_q) / (2.0 * sqrt_t)
-        theta_call = (
-            common_theta - r * safe_k * disc_r * cdf_d2 + q * spot * disc_q * cdf_d1
-        )
-        theta_put = (
-            common_theta
-            + r * safe_k * disc_r * cdf_neg_d2
-            - q * spot * disc_q * cdf_neg_d1
-        )
+        theta_call = common_theta - r * safe_k * disc_r * cdf_d2 + q * spot * disc_q * cdf_d1
+        theta_put = common_theta + r * safe_k * disc_r * cdf_neg_d2 - q * spot * disc_q * cdf_neg_d1
         theta = np.where(is_call, theta_call, theta_put)
 
         # Rho (per 1.00 change in rate)
@@ -150,9 +144,7 @@ def _bsm_greeks(
     }
 
 
-def compute_greeks(
-    df: pd.DataFrame, spot: float, r: float, q: float
-) -> pd.DataFrame:
+def compute_greeks(df: pd.DataFrame, spot: float, r: float, q: float) -> pd.DataFrame:
     """Append Greek columns to a per-ticker options-chain DataFrame.
 
     Expects columns ``strike``, ``impliedVolatility``, ``type`` ('call'/'put'),
