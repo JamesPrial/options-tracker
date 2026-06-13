@@ -3,7 +3,7 @@
 
 Data source: yfinance (unofficial Yahoo Finance API; no API key required).
 For each ticker, every available expiration is fetched (calls + puts) and
-written to one timestamped CSV per ticker, e.g. data/AAPL_2026-06-13.csv.
+written to one timestamped CSV per ticker, e.g. data/AAPL_2026-06-13_150752.csv.
 """
 
 from __future__ import annotations
@@ -197,7 +197,7 @@ def main(argv: list[str] | None = None) -> int:
 
     run_time = datetime.now()
     snapshot = run_time.isoformat(timespec="seconds")
-    date_tag = run_time.strftime("%Y-%m-%d")
+    stamp = run_time.strftime("%Y-%m-%d_%H%M%S")
 
     # Fetch the risk-free rate once for the whole run (used for the Greeks).
     risk_free_rate = greeks.get_risk_free_rate()
@@ -219,7 +219,7 @@ def main(argv: list[str] | None = None) -> int:
             failed += 1
             continue
 
-        out_path = out_dir / f"{symbol}_{date_tag}.csv"
+        out_path = out_dir / f"{symbol}_{stamp}.csv"
         df.to_csv(out_path, index=False)
         print(f"[{symbol}] wrote {len(df)} rows -> {out_path}")
         succeeded += 1
@@ -227,7 +227,7 @@ def main(argv: list[str] | None = None) -> int:
             all_frames.append(df)
 
     if args.combined and all_frames:
-        combined_path = out_dir / f"options_{date_tag}.csv"
+        combined_path = out_dir / f"options_{stamp}.csv"
         pd.concat(all_frames, ignore_index=True).to_csv(combined_path, index=False)
         print(f"[combined] wrote {combined_path}")
 
