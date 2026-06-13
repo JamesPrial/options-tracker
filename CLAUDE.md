@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A Python CLI that pulls option chains from Yahoo Finance (via `yfinance`) and computes
 Black-Scholes-Merton Greeks. Single module: `pull_options.py` (CLI/fetch) + `greeks.py`
-(Greeks math) + `test_greeks.py`.
+(Greeks math) + `test_greeks.py`. A `visualize.py` Streamlit app renders the saved CSVs
+(vol smile, Greeks vs strike, volume/OI); its pure helpers are tested in `test_visualize.py`.
 
 ## Commands
 
@@ -17,7 +18,7 @@ Always use the project venv — system Python lacks the dependencies.
 python3 -m venv venv && ./venv/bin/pip install -r requirements.txt
 
 # Tests
-./venv/bin/python -m pytest test_greeks.py -v
+./venv/bin/python -m pytest -v
 
 # Lint / format
 ./venv/bin/ruff check .          # lint
@@ -28,7 +29,13 @@ python3 -m venv venv && ./venv/bin/pip install -r requirements.txt
 
 # Pull a snapshot
 ./venv/bin/python pull_options.py AAPL MSFT --combined
+
+# Visualize the saved snapshots (interactive dashboard at http://localhost:8501)
+./venv/bin/streamlit run visualize.py
 ```
+
+`visualize.py` is read-only over `data/*.csv` (no network); it needs the `streamlit` and
+`plotly` deps in `requirements.txt`.
 
 ## Conventions & gotchas
 
