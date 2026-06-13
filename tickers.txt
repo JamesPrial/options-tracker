@@ -1,0 +1,3 @@
+# my watchlist
+SPY
+spy  # dupe, different case
